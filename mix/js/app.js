@@ -1,6 +1,3 @@
-// CODE EXPLAINED channel
-
-// Select the Elements
 const clear = document.querySelector(".clear");
 const dateElement = document.getElementById("date");
 const list = document.getElementById("list");
@@ -23,7 +20,7 @@ const KELVIN = 273;
 // API KEY
 const key = "120a15ac56654716cee8f1978bca838b";
 
-// CHECK IF BROWSER SUPPORTS GEOLOCATION
+// kontrola podpory polohy
 if('geolocation' in navigator){
     navigator.geolocation.getCurrentPosition(setPosition, showError);
 }else{
@@ -31,7 +28,7 @@ if('geolocation' in navigator){
     notificationElement.innerHTML = "<p>Browser doesn't Support Geolocation</p>";
 }
 
-// SET USER'S POSITION
+// poloha uživatele
 function setPosition(position){
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
@@ -39,13 +36,13 @@ function setPosition(position){
     getWeather(latitude, longitude);
 }
 
-// SHOW ERROR WHEN THERE IS AN ISSUE WITH GEOLOCATION SERVICE
+// ERROR?
 function showError(error){
     notificationElement.style.display = "block";
     notificationElement.innerHTML = `<p> ${error.message} </p>`;
 }
 
-// GET WEATHER FROM API PROVIDER
+// api
 function getWeather(latitude, longitude){
     let api = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
     
@@ -74,12 +71,10 @@ function displayWeather(){
     locationElement.innerHTML = `${weather.city}, ${weather.country}`;
 }
 
-// C to F conversion
+// telota
 function celsiusToFahrenheit(temperature){
     return (temperature * 9/5) + 32;
 }
-
-// WHEN THE USER CLICKS ON THE TEMPERATURE ELEMENET
 tempElement.addEventListener("click", function(){
     if(weather.temperature.value === undefined) return;
     
@@ -106,10 +101,8 @@ const LINE_THROUGH = "lineThrough";
 // Variables
 let LIST, id;
 
-// get item from localstorage
+// paměť
 let data = localStorage.getItem("TODO");
-
-// check if data is not empty
 if(data){
     LIST = JSON.parse(data);
     id = LIST.length; // set the id to the last one in the list
@@ -120,26 +113,23 @@ if(data){
     id = 0;
 }
 
-// load items to the user's interface
 function loadList(array){
     array.forEach(function(item){
         addToDo(item.name, item.id, item.done, item.trash);
     });
 }
-
-// clear the local storage
 clear.addEventListener("click", function(){
     localStorage.clear();
     location.reload();
 });
 
-// Show todays date
+// datum
 const options = {weekday : "long", month:"short", day:"numeric"};
 const today = new Date();
 
 dateElement.innerHTML = today.toLocaleDateString("cs-CZ", options);
 
-// add to do function
+// funkce zapisniku
 
 function addToDo(toDo, id, done, trash){
     
@@ -160,7 +150,6 @@ function addToDo(toDo, id, done, trash){
     list.insertAdjacentHTML(position, item);
 }
 
-// add an item to the list user the enter key
 document.addEventListener("keyup",function(even){
     if(event.keyCode == 13){
         const toDo = input.value;
